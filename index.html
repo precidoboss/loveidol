@@ -54,7 +54,7 @@
         .top-controls h1 {
             color: #ffe0f0;
             margin: 0;
-            font-size: 1.8em; /* Reduced font size again for more compactness */
+            font-size: 1.6em; /* Reduced font size further for more compactness */
             text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4, 0 0 30px #ff69b4;
             animation: pinkGlowText 1.5s infinite alternate;
             display: flex; /* Allow inline elements for emojis */
@@ -140,14 +140,14 @@
 
         .gift-buttons .gift-button {
             /* Fixed dimensions for uniform buttons */
-            width: 80px; /* Adjusted width */
-            height: 80px; /* Adjusted height, making it square */
+            width: 75px; /* Fixed width */
+            height: 75px; /* Fixed height, making it square */
             background: linear-gradient(145deg, #ff99cc, #ff69b4);
             color: white;
             border: none;
-            padding: 0; /* Remove internal padding, controlled by height/width */
+            padding: 0; /* Remove internal padding, content sizing controlled by flex */
             border-radius: 10px;
-            font-size: 0.9em; /* Adjusted font size for smaller buttons */
+            font-size: 0.8em; /* Adjusted font size for smaller buttons */
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -162,7 +162,7 @@
         }
 
         .gift-buttons .gift-button i {
-            font-size: 1.3em; /* Adjusted icon size for smaller buttons */
+            font-size: 1.2em; /* Adjusted icon size for smaller buttons */
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
         }
 
@@ -221,61 +221,80 @@
 
         /* Bottom Control Panel */
         .bottom-control-panel {
-            background-color: rgba(255, 255, 255, 0.15);
+            background-color: rgba(255, 105, 180, 0.2); /* Pinkish transparent background */
             backdrop-filter: blur(5px);
             border-radius: 20px;
-            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
-            padding: 5px 10px;
+            box-shadow: 0 -5px 20px rgba(255, 105, 180, 0.5); /* Pink glow shadow */
+            padding: 3px 8px; /* Even smaller padding */
             width: 100%;
-            max-width: 350px;
+            max-width: 320px; /* Further reduced max-width */
             text-align: center;
             border: 2px solid rgba(255, 255, 255, 0.3);
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 2px; /* Even smaller gap */
             position: absolute;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 1;
+            animation: pinkGlowBoxBottom 2.5s infinite alternate; /* New animation */
+        }
+
+        @keyframes pinkGlowBoxBottom {
+            from { box-shadow: 0 -5px 15px rgba(255, 105, 180, 0.3); }
+            to { box-shadow: 0 -5px 25px rgba(255, 105, 180, 0.7); }
         }
 
         .love-idol-info-area {
             background-color: transparent;
             border: none;
             padding: 0;
-            margin-bottom: 0;
+            margin-bottom: 0px; /* Ensure no extra space */
         }
 
         .love-idol-mood {
-            font-size: 0.9em;
+            font-size: 1em; /* Slightly larger text */
             font-weight: 700;
             color: #fff;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+            text-shadow: 0 0 5px #ff69b4; /* Pink glow for text */
             margin-top: 0;
             margin-bottom: 0;
             min-height: 1.1em;
+            display: flex; /* For emojis */
+            align-items: center;
+            justify-content: center; /* Center the content including emojis */
+            gap: 5px; /* Space between text and emoji */
         }
 
         .status-message {
-            font-size: 0.75em;
+            font-size: 0.85em; /* Slightly larger text */
             font-weight: 700;
             color: #fff;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+            text-shadow: 0 0 4px #ff69b4;
             margin-top: 0;
             margin-bottom: 3px;
             min-height: 1.2em;
+            display: flex; /* For emojis */
+            align-items: center;
+            justify-content: center; /* Center the content including emojis */
+            gap: 5px;
         }
 
         .love-idol-response {
-            font-size: 0.7em;
+            font-size: 0.8em; /* Slightly larger text */
             color: #f0f0f0;
             background-color: rgba(0, 0, 0, 0.3);
-            padding: 3px 6px;
+            padding: 2px 5px; /* Adjusted padding if needed for new font size */
             border-radius: 6px;
             margin-top: 3px;
-            min-height: 1.2em;
+            min-height: 1em; /* Reduced min-height to save vertical space */
             box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
+            text-shadow: 0 0 3px #ff69b4;
+            display: flex; /* For emojis */
+            align-items: center;
+            justify-content: center; /* Center the content including emojis */
+            gap: 5px;
         }
 
         .comment-section {
@@ -287,10 +306,10 @@
 
         .comment-input {
             width: 100%;
-            padding: 6px;
+            padding: 5px; /* Slightly reduced padding */
             border: 2px solid #ddd;
             border-radius: 10px;
-            font-size: 0.85em;
+            font-size: 0.8em; /* Adjusted font size */
             box-sizing: border-box;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
             background-color: rgba(255, 255, 255, 0.9);
@@ -306,9 +325,9 @@
             background-color: #9933cc;
             color: white;
             border: none;
-            padding: 6px 10px;
+            padding: 5px 8px; /* Slightly reduced padding */
             border-radius: 10px;
-            font-size: 0.85em;
+            font-size: 0.8em; /* Adjusted font size */
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
@@ -414,7 +433,7 @@
                 align-items: flex-start;
             }
             .top-controls h1 {
-                font-size: 1.5em; /* Adjusted for mobile */
+                font-size: 1.3em; /* Adjusted for mobile */
                 gap: 5px;
             }
             .top-controls h1 .emoji, .top-controls h1 .rose-icon {
@@ -429,7 +448,7 @@
                 transform: none;
                 width: 90px; /* Narrower panels for mobile */
                 padding: 10px;
-                gap: 8px; /* Reduced gap */
+                gap: 8px;
             }
             .left-panel {
                 left: 10px;
@@ -461,8 +480,8 @@
                 gap: 8px;
             }
             .gift-buttons .gift-button {
-                width: 70px; /* Adjusted for mobile */
-                height: 70px; /* Adjusted for mobile */
+                width: 70px;
+                height: 70px;
                 font-size: 0.7em;
                 padding: 8px 5px;
             }
@@ -478,13 +497,13 @@
         }
         @media (max-width: 480px) {
             .left-panel, .right-panel {
-                width: 60px; /* Even narrower for small phones */
+                width: 60px;
                 left: 5px;
                 right: 5px;
             }
             .gift-buttons .gift-button {
-                width: 60px; /* Adjusted for very small screens */
-                height: 60px; /* Adjusted for very small screens */
+                width: 60px;
+                height: 60px;
                 font-size: 0.6em;
             }
             .gift-buttons .gift-button i {
@@ -742,7 +761,15 @@
          */
         function setLoveIdolMood(mood) {
             loveIdolMood = mood;
-            loveIdolMoodDisplay.textContent = `Vibe: ${loveIdolMood.toUpperCase()}`;
+            let moodEmoji = '';
+            if (mood === 'delulu') {
+                moodEmoji = '✨';
+            } else if (mood === 'based') {
+                moodEmoji = '👑';
+            } else if (mood === 'in love with a jpeg') {
+                moodEmoji = '💖';
+            }
+            loveIdolMoodDisplay.textContent = `Vibe: ${loveIdolMood.toUpperCase()} ${moodEmoji}`;
         }
 
         /**
@@ -756,7 +783,7 @@
             affection += effect;
             affection = Math.min(Math.max(affection, -50), AFFECTION_CAP); // Keep affection within bounds
 
-            statusMessageDisplay.textContent = `You gave ${giftType}. Affection: ${affection}`;
+            statusMessageDisplay.textContent = `You gave ${giftType}. Affection: ${affection} ${effect > 0 ? '💖' : '💔'}`;
 
             if (effect > 0) {
                 consecutiveGoodGifts++;
@@ -779,7 +806,7 @@
 
             const comment = commentInput.value.trim();
             if (comment === '') {
-                statusMessageDisplay.textContent = "LOVE IDOLS dislikes empty comments!";
+                statusMessageDisplay.textContent = "LOVE IDOLS dislikes empty comments! 😠";
                 affection += COMMENT_EFFECT_NEGATIVE;
                 affection = Math.min(Math.max(affection, -50), AFFECTION_CAP);
                 await generateLoveIdolResponse("received empty comment", COMMENT_EFFECT_NEGATIVE);
@@ -788,7 +815,7 @@
                 return;
             }
 
-            statusMessageDisplay.textContent = 'LOVE IDOLS is reading your comment...';
+            statusMessageDisplay.textContent = 'LOVE IDOLS is reading your comment... 🤔';
 
             // Animate the send button
             sendCommentButton.classList.add('sent');
@@ -823,11 +850,11 @@
 
                     if (sentiment.includes('positive')) {
                         affection += COMMENT_EFFECT_POSITIVE;
-                        statusMessageDisplay.textContent = `Your comment made LOVE IDOLS happier! Affection: ${affection}`;
+                        statusMessageDisplay.textContent = `Your comment made LOVE IDOLS happier! Affection: ${affection} 😊`;
                         await generateLoveIdolResponse("received positive comment", COMMENT_EFFECT_POSITIVE);
                     } else {
                         affection += COMMENT_EFFECT_NEGATIVE;
-                        statusMessageDisplay.textContent = `Your comment didn't land well... Affection: ${affection}`;
+                        statusMessageDisplay.textContent = `Your comment didn't land well... Affection: ${affection} 😠`;
                         await generateLoveIdolResponse("received negative comment", COMMENT_EFFECT_NEGATIVE);
                     }
                     affection = Math.min(Math.max(affection, -50), AFFECTION_CAP); // Keep affection within bounds
@@ -835,7 +862,7 @@
                     checkGameOutcome();
                 } else {
                     console.error("LLM response structure unexpected:", result);
-                    statusMessageDisplay.textContent = "LOVE IDOLS got confused by your comment.";
+                    statusMessageDisplay.textContent = "LOVE IDOLS got confused by your comment. 😕";
                     affection += COMMENT_EFFECT_NEGATIVE / 2;
                     affection = Math.min(Math.max(affection, -50), AFFECTION_CAP);
                     await generateLoveIdolResponse("received confusing comment", COMMENT_EFFECT_NEGATIVE / 2);
@@ -844,7 +871,7 @@
                 }
             } catch (error) {
                 console.error("Error calling LLM for comment sentiment:", error);
-                statusMessageDisplay.textContent = "LOVE IDOLS's internet lagged, comment didn't send.";
+                statusMessageDisplay.textContent = "LOVE IDOLS's internet lagged, comment didn't send. 🕸️";
                 affection += COMMENT_EFFECT_NEGATIVE / 2;
                 affection = Math.min(Math.max(affection, -50), AFFECTION_CAP);
                 await generateLoveIdolResponse("internet lag", COMMENT_EFFECT_NEGATIVE / 2);
@@ -891,14 +918,22 @@
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
                     const idolSays = result.candidates[0].content.parts[0].text.trim();
-                    loveIdolResponseDisplay.textContent = `LOVE IDOLS: "${idolSays}"`;
+                    let responseEmoji = '';
+                    if (effect > 0) {
+                        responseEmoji = '✨'; // Positive effect
+                    } else if (effect < 0) {
+                        responseEmoji = '💢'; // Negative effect
+                    } else {
+                        responseEmoji = '🤔'; // Neutral or confusing
+                    }
+                    loveIdolResponseDisplay.textContent = `LOVE IDOLS: "${idolSays}" ${responseEmoji}`;
                 } else {
                     console.error("LLM failed to generate Love Idol's response (unexpected structure):", result);
-                    loveIdolResponseDisplay.textContent = "LOVE IDOLS is speechless..."; // Fallback
+                    loveIdolResponseDisplay.textContent = "LOVE IDOLS is speechless... 😶"; // Fallback with emoji
                 }
             } catch (error) {
                 console.error("Error calling LLM for Love Idol's response:", error);
-                loveIdolResponseDisplay.textContent = "LOVE IDOLS's connection dropped!"; // Fallback
+                loveIdolResponseDisplay.textContent = "LOVE IDOLS's connection dropped! 🔌"; // Fallback with emoji
             }
         }
 
@@ -954,14 +989,14 @@
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
                     const generatedName = result.candidates[0].content.parts[0].text.trim();
-                    shoutoutText.textContent = `LOVE IDOLS just shouted out "${generatedName}"! That's YOU!`;
+                    shoutoutText.textContent = `LOVE IDOLS just shouted out "${generatedName}"! That's YOU! 🎉`;
                 } else {
                     console.error("LLM failed to generate name (unexpected structure):", result);
-                    shoutoutText.textContent = `LOVE IDOLS just shouted out "Degenerate_Chad"! That's YOU!`; // Fallback
+                    shoutoutText.textContent = `LOVE IDOLS just shouted out "Degenerate_Chad"! That's YOU! 🥳`; // Fallback
                 }
             } catch (error) {
                 console.error("Error calling LLM for name generation:", error);
-                shoutoutText.textContent = `LOVE IDOLS just shouted out "Anon_Gamer"! That's YOU!`; // Fallback
+                shoutoutText.textContent = `LOVE IDOLS just shouted out "Anon_Gamer"! That's YOU! 🎮`; // Fallback
             }
         }
 
