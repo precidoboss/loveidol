@@ -826,7 +826,7 @@
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: `Is this comment positive or negative? Respond with just "positive" or "negative". Comment: "${comment}"` }] });
             const payload = { contents: chatHistory };
-            const apiKey = ""; // Canvas will provide this at runtime
+            const apiKey = typeof __initial_auth_token !== 'undefined' ? '' : process.env.GOOGLE_API_KEY || ''; // Updated API Key handling
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             try {
@@ -837,8 +837,8 @@
                 });
 
                 if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(`API call failed with status ${response.status}: ${errorText}`);
+                    const errorText = await response.text(); // Get raw response body for detailed error
+                    throw new Error(`API call failed with status ${response.status} (${response.statusText}): ${errorText}`);
                 }
 
                 const result = await response.json();
@@ -871,7 +871,7 @@
                 }
             } catch (error) {
                 console.error("Error calling LLM for comment sentiment:", error);
-                statusMessageDisplay.textContent = "LOVE IDOLS's internet lagged, comment didn't send. 🕸️";
+                statusMessageDisplay.textContent = `LOVE IDOLS's internet lagged, comment didn't send. 🕸️ Error: ${error.message.substring(0, 50)}...`; // Display specific error message
                 affection += COMMENT_EFFECT_NEGATIVE / 2;
                 affection = Math.min(Math.max(affection, -50), AFFECTION_CAP);
                 await generateLoveIdolResponse("internet lag", COMMENT_EFFECT_NEGATIVE / 2);
@@ -890,7 +890,7 @@
         async function generateLoveIdolResponse(action, effect) {
             loveIdolResponseDisplay.textContent = 'LOVE IDOLS is thinking...'; // Show thinking state
 
-            const apiKey = ""; // Canvas will provide this at runtime
+            const apiKey = typeof __initial_auth_token !== 'undefined' ? '' : process.env.GOOGLE_API_KEY || ''; // Updated API Key handling
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             // Modified prompt to ask for "up to 2 sentences"
@@ -908,8 +908,8 @@
                 });
 
                 if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(`API call failed with status ${response.status}: ${errorText}`);
+                    const errorText = await response.text(); // Get raw response body for detailed error
+                    throw new Error(`API call failed with status ${response.status} (${response.statusText}): ${errorText}`);
                 }
 
                 const result = await response.json();
@@ -933,7 +933,7 @@
                 }
             } catch (error) {
                 console.error("Error calling LLM for Love Idol's response:", error);
-                loveIdolResponseDisplay.textContent = "LOVE IDOLS's connection dropped! 🔌"; // Fallback with emoji
+                loveIdolResponseDisplay.textContent = `LOVE IDOLS's connection dropped! 🔌 Error: ${error.message.substring(0, 50)}...`; // Display specific error message
             }
         }
 
@@ -963,7 +963,7 @@
          * Uses LLM to generate a random "based" name for the shoutout.
          */
         async function generateShoutoutName() {
-            const apiKey = ""; // Canvas will provide this at runtime
+            const apiKey = typeof __initial_auth_token !== 'undefined' ? '' : process.env.GOOGLE_API_KEY || ''; // Updated API Key handling
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             const prompt = "Generate a single, short, and slightly 'based' or 'internet culture' sounding username/nickname for a livestream shoutout (e.g., 'Apechad', 'CryptoQueen', 'NFTGod'). Just give the name, nothing else.";
@@ -979,8 +979,8 @@
                 });
 
                 if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(`API call failed with status ${response.status}: ${errorText}`);
+                    const errorText = await response.text(); // Get raw response body for detailed error
+                    throw new Error(`API call failed with status ${response.status} (${response.statusText}): ${errorText}`);
                 }
 
                 const result = await response.json();
@@ -996,7 +996,7 @@
                 }
             } catch (error) {
                 console.error("Error calling LLM for name generation:", error);
-                shoutoutText.textContent = `LOVE IDOLS just shouted out "Anon_Gamer"! That's YOU! 🎮`; // Fallback
+                shoutoutText.textContent = `LOVE IDOLS just shouted out "Anon_Gamer"! That's YOU! 🎮 Error: ${error.message.substring(0, 50)}...`; // Fallback with error message
             }
         }
 
