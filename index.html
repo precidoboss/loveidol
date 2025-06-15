@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOVE IDOLS Stream</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0e6e6, #e6f0f0);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            color: #333;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Fullscreen background video styling */
+        .love-idol-background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Top control bar with title and sound button */
+        .top-controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+            background-color: rgba(255, 105, 180, 0.15);
+            backdrop-filter: blur(3px);
+            padding: 8px 15px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(255, 105, 180, 0.6);
+            border: 1px solid rgba(255,255,255,0.3);
+            animation: pinkGlowBox 2s infinite alternate;
+        }
+
+        .top-controls h1 {
+            color: #ffe0f0;
+            margin: 0;
+            font-size: 1.8em; /* Reduced font size again for more compactness */
+            text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4, 0 0 30px #ff69b4;
+            animation: pinkGlowText 1.5s infinite alternate;
+            display: flex; /* Allow inline elements for emojis */
+            align-items: center;
+            gap: 8px; /* Space between text and emojis */
+        }
+
+        .top-controls h1 .emoji, .top-controls h1 .rose-icon {
+            font-size: 0.8em; /* Smaller emojis relative to title text */
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.8)); /* Glow for emojis */
+        }
+
+        /* Keyframes for pink glow animations */
+        @keyframes pinkGlowBox {
+            from { box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4); }
+            to { box-shadow: 0 4px 25px rgba(255, 105, 180, 0.8); }
+        }
+
+        @keyframes pinkGlowText {
+            from { text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4; }
+            to { text-shadow: 0 0 15px #ff69b4, 0 0 25px #ff69b4, 0 0 35px #ff69b4; }
+        }
+
+
+        .video-control-button {
+            background: rgba(153, 51, 204, 0.7);
+            backdrop-filter: blur(3px);
+            padding: 10px 15px;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .video-control-button:hover {
+            background: rgba(179, 102, 230, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-control-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Left Panel for Gifts */
+        .left-panel, .right-panel {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Reduced gap for more compact gift buttons */
+            padding: 15px 10px; /* Reduced padding for compact panel */
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .left-panel {
+            left: 20px;
+            align-items: center; /* Center gift buttons within the panel */
+        }
+
+        .gift-buttons {
+            display: flex;
+            flex-direction: column; /* Ensure vertical stacking */
+            gap: 10px; /* Consistent gap between buttons */
+            width: 100%; /* Take full width of parent panel */
+        }
+
+        .gift-buttons .gift-button {
+            /* Fixed dimensions for uniform buttons */
+            width: 80px; /* Adjusted width */
+            height: 80px; /* Adjusted height, making it square */
+            background: linear-gradient(145deg, #ff99cc, #ff69b4);
+            color: white;
+            border: none;
+            padding: 0; /* Remove internal padding, controlled by height/width */
+            border-radius: 10px;
+            font-size: 0.9em; /* Adjusted font size for smaller buttons */
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            gap: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            text-align: center; /* Ensure text is centered */
+        }
+
+        .gift-buttons .gift-button i {
+            font-size: 1.3em; /* Adjusted icon size for smaller buttons */
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+        }
+
+        .gift-buttons .gift-button:hover {
+            background: linear-gradient(145deg, #ffb3e6, #ff80c0);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .gift-buttons .gift-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+
+        /* Right Panel for Random Comments */
+        .right-panel {
+            right: 20px;
+            align-items: flex-end;
+            width: 250px; /* Fixed width for comments panel */
+        }
+
+        .random-comments-box {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .random-comment-item {
+            background-color: rgba(255, 105, 180, 0.2);
+            border: 1px solid rgba(255, 105, 180, 0.5);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 0.95em;
+            text-align: left;
+            margin: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            opacity: 0;
+            animation: fadeIn 0.5s forwards, pinkVibeComment 3s infinite alternate;
+            word-wrap: break-word;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes pinkVibeComment {
+            0% { background-color: rgba(255, 105, 180, 0.2); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+            50% { background-color: rgba(255, 105, 180, 0.3); box-shadow: 0 2px 10px rgba(255, 105, 180, 0.4); }
+            100% { background-color: rgba(255, 105, 180, 0.2); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        }
+
+
+        /* Bottom Control Panel */
+        .bottom-control-panel {
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+            padding: 5px 10px;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .love-idol-info-area {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            margin-bottom: 0;
+        }
+
+        .love-idol-mood {
+            font-size: 0.9em;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+            margin-top: 0;
+            margin-bottom: 0;
+            min-height: 1.1em;
+        }
+
+        .status-message {
+            font-size: 0.75em;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+            margin-top: 0;
+            margin-bottom: 3px;
+            min-height: 1.2em;
+        }
+
+        .love-idol-response {
+            font-size: 0.7em;
+            color: #f0f0f0;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 3px 6px;
+            border-radius: 6px;
+            margin-top: 3px;
+            min-height: 1.2em;
+            box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
+        }
+
+        .comment-section {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-top: 5px;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 6px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 0.85em;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .comment-input:focus {
+            border-color: #ff69b4;
+            outline: none;
+            box-shadow: 0 0 8px rgba(255, 105, 180, 0.3);
+        }
+
+        .comment-button {
+            background-color: #9933cc;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .comment-button:hover {
+            background-color: #b366e6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .comment-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* New keyframes for send comment button animation */
+        @keyframes pulsePink {
+            0% { transform: scale(1); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); }
+            50% { transform: scale(1.05); box-shadow: 0 0 15px #ff69b4, 0 0 25px #ff69b4; }
+            100% { transform: scale(1); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); }
+        }
+        .comment-button.sent {
+            animation: pulsePink 0.5s ease-out forwards;
+        }
+
+        /* Modal styling for shoutout/blocked messages */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 30px;
+            border: 2px solid #888;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            color: #ff69b4;
+            font-size: 1.8em;
+        }
+
+        .modal-content p {
+            font-size: 1.1em;
+            margin-bottom: 25px;
+        }
+
+        .modal-button {
+            background-color: #ff69b4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .modal-button:hover {
+            background-color: #e05c9e;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .top-controls {
+                top: 10px;
+                padding: 8px 15px;
+                left: 10px;
+                transform: none;
+                align-items: flex-start;
+            }
+            .top-controls h1 {
+                font-size: 1.5em; /* Adjusted for mobile */
+                gap: 5px;
+            }
+            .top-controls h1 .emoji, .top-controls h1 .rose-icon {
+                font-size: 0.7em;
+            }
+            .video-control-button {
+                font-size: 0.9em;
+                padding: 8px 12px;
+            }
+            .left-panel, .right-panel {
+                top: 120px;
+                transform: none;
+                width: 90px; /* Narrower panels for mobile */
+                padding: 10px;
+                gap: 8px; /* Reduced gap */
+            }
+            .left-panel {
+                left: 10px;
+            }
+            .right-panel {
+                right: 10px;
+            }
+            .random-comment-item {
+                font-size: 0.8em;
+                padding: 6px 8px;
+            }
+            .bottom-control-panel {
+                padding: 5px 8px;
+                bottom: 10px;
+                max-width: 95%;
+            }
+            .love-idol-mood {
+                font-size: 0.8em;
+            }
+            .status-message {
+                font-size: 0.7em;
+            }
+            .love-idol-response {
+                font-size: 0.65em;
+                padding: 2px 5px;
+            }
+            .gift-buttons {
+                grid-template-columns: repeat(1, 1fr);
+                gap: 8px;
+            }
+            .gift-buttons .gift-button {
+                width: 70px; /* Adjusted for mobile */
+                height: 70px; /* Adjusted for mobile */
+                font-size: 0.7em;
+                padding: 8px 5px;
+            }
+            .gift-buttons .gift-button i {
+                font-size: 1.1em;
+            }
+            .comment-input {
+                padding: 6px;
+            }
+            .comment-button {
+                padding: 6px 10px;
+            }
+        }
+        @media (max-width: 480px) {
+            .left-panel, .right-panel {
+                width: 60px; /* Even narrower for small phones */
+                left: 5px;
+                right: 5px;
+            }
+            .gift-buttons .gift-button {
+                width: 60px; /* Adjusted for very small screens */
+                height: 60px; /* Adjusted for very small screens */
+                font-size: 0.6em;
+            }
+            .gift-buttons .gift-button i {
+                font-size: 1em;
+            }
+            .random-comment-item {
+                font-size: 0.7em;
+            }
+            .bottom-control-panel {
+                max-width: 98%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fullscreen background video -->
+    <video id="loveIdolBackgroundVideo" class="love-idol-background-video" autoplay loop playsinline>
+        <source src="https://i.imgur.com/I7hr21Y.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Top control bar with title and sound button -->
+    <div class="top-controls">
+        <h1 id="streamTitle">
+            <span class="emoji">💖</span> LOVE IDOLS STREAM <span class="rose-icon">🌹</span>
+        </h1>
+        <button id="videoSoundToggleButton" class="video-control-button">
+            <i class="fas fa-volume-up"></i>
+            <span>Play Stream with Sound</span>
+        </button>
+    </div>
+
+    <!-- Left Panel for Gifts -->
+    <div class="left-panel">
+        <div class="gift-buttons">
+            <button class="gift-button" data-gift-type="likes">
+                <i class="fas fa-heart"></i>
+                <span>Likes</span>
+            </button>
+            <button class="gift-button" data-gift-type="serotonin">
+                <i class="fas fa-pills"></i>
+                <span>Serotonin Pills</span>
+            </button>
+            <button class="gift-button" data-gift-type="wine">
+                <i class="fas fa-wine-glass-alt"></i>
+                <span>Red Wine</span>
+            </button>
+            <button class="gift-button" data-gift-type="aptos">
+                <i class="fas fa-coins"></i>
+                <span>Aptos Donation</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Right Panel for Random Comments -->
+    <div class="right-panel">
+        <div class="random-comments-box" id="randomCommentsBox">
+            <!-- Random comments will be injected here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Bottom Control Panel -->
+    <div class="bottom-control-panel" id="bottomControlPanel">
+        <div class="love-idol-info-area">
+            <p class="love-idol-mood" id="loveIdolMood">Loading Mood...</p>
+            <p class="status-message" id="statusMessage"></p>
+            <p class="love-idol-response" id="loveIdolResponse"></p> <!-- Love Idol's generated responses -->
+        </div>
+
+        <div class="comment-section">
+            <input type="text" id="commentInput" class="comment-input" placeholder="Say something nice...">
+            <button id="sendCommentButton" class="comment-button">Send Comment</button>
+        </div>
+    </div>
+
+    <!-- Modals for Game Outcomes -->
+    <div id="shoutoutModal" class="modal">
+        <div class="modal-content">
+            <h2>🎉 Shoutout! 🎉</h2>
+            <p id="shoutoutText">LOVE IDOLS just shouted out your name!</p>
+            <button class="modal-button" onclick="initializeGame()">Awesome!</button>
+        </div>
+    </div>
+
+    <div id="blockedModal" class="modal">
+        <div class="modal-content">
+            <h2>⛔ Blocked! ⛔</h2>
+            <p>You've been blocked by LOVE IDOLS. Ouch!</p>
+            <button class="modal-button" onclick="initializeGame()">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const loveIdolMoodDisplay = document.getElementById('loveIdolMood');
+        const statusMessageDisplay = document.getElementById('statusMessage');
+        const loveIdolResponseDisplay = document.getElementById('loveIdolResponse');
+        const giftButtons = document.querySelectorAll('.gift-button');
+        const commentInput = document.getElementById('commentInput');
+        const sendCommentButton = document.getElementById('sendCommentButton');
+        const shoutoutModal = document.getElementById('shoutoutModal');
+        const shoutoutText = document.getElementById('shoutoutText');
+        const blockedModal = document.getElementById('blockedModal');
+        const loveIdolBackgroundVideo = document.getElementById('loveIdolBackgroundVideo');
+        const videoSoundToggleButton = document.getElementById('videoSoundToggleButton');
+        const randomCommentsBox = document.getElementById('randomCommentsBox'); // New: for random comments
+
+        // Game State
+        let loveIdolMood = ''; // 'delulu', 'based', 'in love with a jpeg'
+        let affection = 0; // Represents how favorable Love Idol is, influences outcomes
+        let consecutiveGoodGifts = 0; // Track consecutive successful gifts
+        let gameActive = true;
+        let moodInterval; // To store the interval ID for mood changes
+        let commentGenerationInterval; // New: for random comment generation
+
+        // --- Game Configuration ---
+        const MOOD_CHANGE_INTERVAL = 2000; // Miliseconds (2 seconds)
+        const MOODS = ['delulu', 'based', 'in love with a jpeg'];
+        const AFFECTION_CAP = 100;
+        const AFFECTION_THRESHOLD_SHOUTOUT = 60; // Affection needed for a shoutout chance
+        const AFFECTION_THRESHOLD_BLOCKED = -30; // Affection below which blocking is likely
+
+        const GIFT_EFFECTS = {
+            'likes': {
+                'delulu': 5, 'based': 2, 'in love with a jpeg': 8 // Likes are good for all, especially "jpeg"
+            },
+            'serotonin': {
+                'delulu': 10, 'based': -5, 'in love with a jpeg': 3 // Great for delulu, bad for based
+            },
+            'wine': {
+                'delulu': -5, 'based': 8, 'in love with a jpeg': 2 // Good for based, bad for delulu
+            },
+            'aptos': {
+                'delulu': 15, 'based': 10, 'in love with a jpeg': 12 // Money is almost always good
+            }
+        };
+
+        const COMMENT_EFFECT_POSITIVE = 5; // How much a good comment adds
+        const COMMENT_EFFECT_NEGATIVE = -10; // How much a bad/empty comment detracts (if we implement a check)
+
+        const RANDOM_COMMENTS = [ // New: Array of random comments
+            "Slay!", "Queen!", "So based!", "Love your vibe!", "Periodt!",
+            "ICONIC!", "Yaaas!", "LOVE IDOLS is serving!", "We stan!", "Goals!",
+            "Amazing stream!", "Legend!", "My idol!", "You're glowing!", "Perfect!",
+            "I'm here for this!", "Best stream ever!", "Keep it up!", "Inspiring!",
+            "Much love!", "Based beyond belief!", "Delulu but I still love you!",
+            "This is my new obsession!", "Literal queen!", "Aptos to the moon!"
+        ];
+        const MAX_COMMENTS_DISPLAYED = 3;
+        const COMMENT_INTERVAL = 2500; // Interval for new comments to appear
+
+        // --- Game Functions ---
+
+        /**
+         * Initializes the game state and starts the mood cycle and random comment generation.
+         */
+        function initializeGame() {
+            // Clear any active game state before re-initializing
+            clearInterval(moodInterval);
+            clearInterval(commentGenerationInterval); // Clear comments interval too
+            loveIdolBackgroundVideo.pause(); // Pause video if it was playing
+
+            affection = 0;
+            consecutiveGoodGifts = 0;
+            gameActive = true;
+            statusMessageDisplay.textContent = 'Keep LOVE IDOLS happy!';
+            loveIdolResponseDisplay.textContent = 'LOVE IDOLS is waiting for your gifts!'; // Initial response
+            commentInput.value = '';
+            closeModal('shoutoutModal'); // Ensure modals are closed without triggering recursion
+            closeModal('blockedModal');
+            setLoveIdolMood(MOODS[Math.floor(Math.random() * MOODS.length)]); // Set initial random mood
+
+            // Clear existing random comments and add initial ones
+            randomCommentsBox.innerHTML = '';
+            for (let i = 0; i < MAX_COMMENTS_DISPLAYED; i++) {
+                addRandomComment(); // Add initial comments to fill the box
+            }
+
+
+            startMoodCycle(); // Start the mood change interval
+            startCommentCycle(); // Start random comment generation
+            updateUI(); // Initial UI update
+
+            // Ensure video starts muted initially as per browser policies
+            loveIdolBackgroundVideo.muted = true;
+            loveIdolBackgroundVideo.play().catch(error => {
+                console.warn("Autoplay video muted failed (likely due to browser policy):", error);
+                // The sound button will still allow playback.
+            });
+            // Update button icon/text to reflect muted state initially
+            videoSoundToggleButton.innerHTML = '<i class="fas fa-volume-mute"></i><span>Play Stream with Sound</span>';
+        }
+
+        /**
+         * Starts the interval for Love Idol's mood to change.
+         */
+        function startMoodCycle() {
+            if (moodInterval) {
+                clearInterval(moodInterval); // Clear any existing interval
+            }
+            moodInterval = setInterval(() => {
+                if (gameActive) {
+                    changeLoveIdolMood();
+                    // Slowly decrease affection over time to make it a challenge
+                    affection = Math.max(-50, affection - 1); // Ensure affection doesn't go below -50
+                    updateUI();
+                    checkGameOutcome();
+                }
+            }, MOOD_CHANGE_INTERVAL);
+        }
+
+        /**
+         * Starts the interval for random comments to appear.
+         */
+        function startCommentCycle() {
+            if (commentGenerationInterval) {
+                clearInterval(commentGenerationInterval);
+            }
+            commentGenerationInterval = setInterval(addRandomComment, COMMENT_INTERVAL);
+        }
+
+        /**
+         * Adds a new random comment to the comments box.
+         */
+        function addRandomComment() {
+            const commentText = RANDOM_COMMENTS[Math.floor(Math.random() * RANDOM_COMMENTS.length)];
+            const commentElement = document.createElement('p');
+            commentElement.classList.add('random-comment-item');
+            commentElement.textContent = commentText;
+
+            // If we exceed max comments, remove the oldest one
+            if (randomCommentsBox.children.length >= MAX_COMMENTS_DISPLAYED) {
+                randomCommentsBox.removeChild(randomCommentsBox.firstElementChild);
+            }
+            randomCommentsBox.appendChild(commentElement);
+        }
+
+
+        /**
+         * Changes Love Idol's mood randomly.
+         */
+        function changeLoveIdolMood() {
+            const currentMoodIndex = MOODS.indexOf(loveIdolMood);
+            let newMoodIndex;
+            do {
+                newMoodIndex = Math.floor(Math.random() * MOODS.length);
+            } while (newMoodIndex === currentMoodIndex); // Ensure different from current mood
+
+            setLoveIdolMood(MOODS[newMoodIndex]);
+        }
+
+        /**
+         * Sets Love Idol's mood and updates the display.
+         * @param {string} mood - The new mood ('delulu', 'based', 'in love with a jpeg').
+         */
+        function setLoveIdolMood(mood) {
+            loveIdolMood = mood;
+            loveIdolMoodDisplay.textContent = `Vibe: ${loveIdolMood.toUpperCase()}`;
+        }
+
+        /**
+         * Handles the gifting action.
+         * @param {string} giftType - The type of gift ('likes', 'serotonin', 'wine', 'aptos').
+         */
+        async function handleGift(giftType) {
+            if (!gameActive) return;
+
+            const effect = GIFT_EFFECTS[giftType][loveIdolMood];
+            affection += effect;
+            affection = Math.min(Math.max(affection, -50), AFFECTION_CAP); // Keep affection within bounds
+
+            statusMessageDisplay.textContent = `You gave ${giftType}. Affection: ${affection}`;
+
+            if (effect > 0) {
+                consecutiveGoodGifts++;
+            } else {
+                consecutiveGoodGifts = 0; // Reset if gift was bad
+            }
+
+            // Generate Love Idol's response based on gift and mood
+            await generateLoveIdolResponse(`received ${giftType}`, effect);
+
+            updateUI();
+            checkGameOutcome();
+        }
+
+        /**
+         * Handles sending a comment.
+         */
+        async function sendComment() {
+            if (!gameActive) return;
+
+            const comment = commentInput.value.trim();
+            if (comment === '') {
+                statusMessageDisplay.textContent = "LOVE IDOLS dislikes empty comments!";
+                affection += COMMENT_EFFECT_NEGATIVE;
+                affection = Math.min(Math.max(affection, -50), AFFECTION_CAP);
+                await generateLoveIdolResponse("received empty comment", COMMENT_EFFECT_NEGATIVE);
+                updateUI();
+                checkGameOutcome();
+                return;
+            }
+
+            statusMessageDisplay.textContent = 'LOVE IDOLS is reading your comment...';
+
+            // Animate the send button
+            sendCommentButton.classList.add('sent');
+            setTimeout(() => {
+                sendCommentButton.classList.remove('sent');
+            }, 500); // Animation duration
+
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: `Is this comment positive or negative? Respond with just "positive" or "negative". Comment: "${comment}"` }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; // Canvas will provide this at runtime
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API call failed with status ${response.status}: ${errorText}`);
+                }
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const sentiment = result.candidates[0].content.parts[0].text.toLowerCase();
+
+                    if (sentiment.includes('positive')) {
+                        affection += COMMENT_EFFECT_POSITIVE;
+                        statusMessageDisplay.textContent = `Your comment made LOVE IDOLS happier! Affection: ${affection}`;
+                        await generateLoveIdolResponse("received positive comment", COMMENT_EFFECT_POSITIVE);
+                    } else {
+                        affection += COMMENT_EFFECT_NEGATIVE;
+                        statusMessageDisplay.textContent = `Your comment didn't land well... Affection: ${affection}`;
+                        await generateLoveIdolResponse("received negative comment", COMMENT_EFFECT_NEGATIVE);
+                    }
+                    affection = Math.min(Math.max(affection, -50), AFFECTION_CAP); // Keep affection within bounds
+                    updateUI();
+                    checkGameOutcome();
+                } else {
+                    console.error("LLM response structure unexpected:", result);
+                    statusMessageDisplay.textContent = "LOVE IDOLS got confused by your comment.";
+                    affection += COMMENT_EFFECT_NEGATIVE / 2;
+                    affection = Math.min(Math.max(affection, -50), AFFECTION_CAP);
+                    await generateLoveIdolResponse("received confusing comment", COMMENT_EFFECT_NEGATIVE / 2);
+                    updateUI();
+                    checkGameOutcome();
+                }
+            } catch (error) {
+                console.error("Error calling LLM for comment sentiment:", error);
+                statusMessageDisplay.textContent = "LOVE IDOLS's internet lagged, comment didn't send.";
+                affection += COMMENT_EFFECT_NEGATIVE / 2;
+                affection = Math.min(Math.max(affection, -50), AFFECTION_CAP);
+                await generateLoveIdolResponse("internet lag", COMMENT_EFFECT_NEGATIVE / 2);
+                updateUI();
+                checkGameOutcome();
+            } finally {
+                commentInput.value = ''; // Clear input regardless of outcome
+            }
+        }
+
+        /**
+         * Generates a response from Love Idol using the Gemini API.
+         * @param {string} action - The user's action (e.g., "gave likes", "sent positive comment").
+         * @param {number} effect - The affection change caused by the action.
+         */
+        async function generateLoveIdolResponse(action, effect) {
+            loveIdolResponseDisplay.textContent = 'LOVE IDOLS is thinking...'; // Show thinking state
+
+            const apiKey = ""; // Canvas will provide this at runtime
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            // Modified prompt to ask for "up to 2 sentences"
+            let prompt = `LOVE IDOLS's current vibe is "${loveIdolMood}". The user just "${action}" which caused an affection change of ${effect}. Generate a very short, quirky, and in-character livestream response from LOVE IDOLS (up to 2 sentences). Make it sound like something a quirky internet idol would actually say. If affection went up, she should be happier/more appreciative. If affection went down, she should be annoyed/confused/dramatic.`;
+
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API call failed with status ${response.status}: ${errorText}`);
+                }
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const idolSays = result.candidates[0].content.parts[0].text.trim();
+                    loveIdolResponseDisplay.textContent = `LOVE IDOLS: "${idolSays}"`;
+                } else {
+                    console.error("LLM failed to generate Love Idol's response (unexpected structure):", result);
+                    loveIdolResponseDisplay.textContent = "LOVE IDOLS is speechless..."; // Fallback
+                }
+            } catch (error) {
+                console.error("Error calling LLM for Love Idol's response:", error);
+                loveIdolResponseDisplay.textContent = "LOVE IDOLS's connection dropped!"; // Fallback
+            }
+        }
+
+
+        /**
+         * Checks if the game has reached an end condition (shoutout or blocked).
+         */
+        function checkGameOutcome() {
+            if (!gameActive) return;
+
+            // Shoutout condition
+            if (affection >= AFFECTION_THRESHOLD_SHOUTOUT && Math.random() < 0.3) { // 30% chance at high affection
+                 // Get a random "based" name or generate one with LLM
+                generateShoutoutName();
+                endGame(true);
+                return;
+            }
+
+            // Blocked condition
+            if (affection <= AFFECTION_THRESHOLD_BLOCKED && Math.random() < 0.2) { // 20% chance at low affection
+                endGame(false);
+                return;
+            }
+        }
+
+        /**
+         * Uses LLM to generate a random "based" name for the shoutout.
+         */
+        async function generateShoutoutName() {
+            const apiKey = ""; // Canvas will provide this at runtime
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            const prompt = "Generate a single, short, and slightly 'based' or 'internet culture' sounding username/nickname for a livestream shoutout (e.g., 'Apechad', 'CryptoQueen', 'NFTGod'). Just give the name, nothing else.";
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API call failed with status ${response.status}: ${errorText}`);
+                }
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const generatedName = result.candidates[0].content.parts[0].text.trim();
+                    shoutoutText.textContent = `LOVE IDOLS just shouted out "${generatedName}"! That's YOU!`;
+                } else {
+                    console.error("LLM failed to generate name (unexpected structure):", result);
+                    shoutoutText.textContent = `LOVE IDOLS just shouted out "Degenerate_Chad"! That's YOU!`; // Fallback
+                }
+            } catch (error) {
+                console.error("Error calling LLM for name generation:", error);
+                shoutoutText.textContent = `LOVE IDOLS just shouted out "Anon_Gamer"! That's YOU!`; // Fallback
+            }
+        }
+
+
+        /**
+         * Ends the game and shows the appropriate modal.
+         * @param {boolean} success - True if shoutout, false if blocked.
+         */
+        function endGame(success) {
+            gameActive = false;
+            clearInterval(moodInterval); // Stop mood changes
+            clearInterval(commentGenerationInterval); // Stop comment generation
+            if (success) {
+                showModal('shoutoutModal');
+            } else {
+                showModal('blockedModal');
+            }
+        }
+
+        /**
+         * Updates the UI elements based on game state.
+         */
+        function updateUI() {
+            // No specific UI updates needed here currently, but can be expanded.
+        }
+
+        /**
+         * Shows a specific modal.
+         * @param {string} modalId - The ID of the modal element to show.
+         */
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('show');
+        }
+
+        /**
+         * Closes a specific modal without restarting the game automatically.
+         * @param {string} modalId - The ID of the modal element to close.
+         */
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('show');
+        }
+
+
+        // --- Event Listeners ---
+        giftButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                handleGift(button.dataset.giftType);
+            });
+        });
+
+        sendCommentButton.addEventListener('click', sendComment);
+        commentInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Prevent new line in input if Enter is pressed
+                sendComment();
+            }
+        });
+
+        // Event listener for the video sound toggle button
+        videoSoundToggleButton.addEventListener('click', () => {
+            if (loveIdolBackgroundVideo.paused) {
+                loveIdolBackgroundVideo.play().then(() => {
+                    loveIdolBackgroundVideo.muted = false;
+                    videoSoundToggleButton.innerHTML = '<i class="fas fa-volume-up"></i><span>Mute Stream</span>';
+                }).catch(error => {
+                    console.error("Error playing video:", error);
+                    statusMessageDisplay.textContent = "Could not play video with sound. Browser policies require user interaction.";
+                });
+            } else if (loveIdolBackgroundVideo.muted) {
+                loveIdolBackgroundVideo.muted = false;
+                videoSoundToggleButton.innerHTML = '<i class="fas fa-volume-up"></i><span>Mute Stream</span>';
+            } else {
+                loveIdolBackgroundVideo.muted = true;
+                videoSoundToggleButton.innerHTML = '<i class="fas fa-volume-mute"></i><span>Play Stream with Sound</span>';
+            }
+        });
+
+        // Initialize the game when the window loads
+        window.onload = initializeGame;
+
+    </script>
+</body>
+</html>
